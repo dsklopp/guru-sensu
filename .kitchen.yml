@@ -44,6 +44,6 @@ platforms:
 suites:
   - name: default
     run_list:
-      recipe[apt::default]
-      recipe[guru-sensu::all_in_one]
+      - recipe[apt::default]
+      - recipe[guru-sensu::all_in_one]
     attributes:

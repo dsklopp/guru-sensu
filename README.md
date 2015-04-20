@@ -31,6 +31,8 @@ By default this cookbook builds from source.  It does so because many existing r
 ### guru-sensu::default
 Does nothing except pull in dependencies.
 
+### guru-sensu::dashboard
+Deploys the Sensu Dashboard.  By default it is uchiwa.
 
 ### guru-sensu::server
 

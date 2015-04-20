@@ -16,7 +16,7 @@ version          '0.1.0'
   supports os
 end
 
-depends apt
+depends "apt"
 depends "sensu", "= 2.9.0"
 depends "sudo"
 depends "uchiwa"
