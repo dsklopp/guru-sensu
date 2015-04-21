@@ -7,6 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
+include_recipe "guru-sensu::_common"
 
 include_recipe "sensu::api_service"
 include_recipe "sensu::server_service"

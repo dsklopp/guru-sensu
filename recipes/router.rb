@@ -7,6 +7,12 @@
 # All rights reserved - Do Not Redistribute
 #
 
+# Find all router IPs and include self in that list
+
+include_recipe "guru-sensu::_common"
+unless node.remotes.routers.ips.include?(node.ipaddress)
+  node.default.remotes.routers.ips << node.ipaddress
+end
 
 include_recipe "haproxy"
 
