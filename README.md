@@ -2,7 +2,7 @@
 
 Configuration cookbook for Sensu.  This cookbook is meant for deploying a Sensu Server and Client with all the bells and whistles normally attributed of such an installation.
 
-I would like to thank Sean Porter for much of the inspiration for this cookbook.  This cookbook is a rewrite (with quite a bit of borrowing from Sean) that better fits deployments.
+I would like to thank Sean Porter's chef-monitor cookbook for much of the inspiration for this variant.  This cookbook is a complete rewrite that better fits deployments.  Having said that, the bulk of this cookbook is tightly coupled with Sean's original chef-sensu cookbook.
 
 ## Architecture
 Sensu is a naturally distributed application.  This cookbook was designed to reflect that design.
@@ -10,6 +10,10 @@ Sensu is a naturally distributed application.  This cookbook was designed to ref
 Sensu's components are Redis, RabbitMQ, Sensu-Server + Sensu-Api.  When setting up high availability or greater levels of performance, the easiest way to achieve this is by separating the components onto their own clusters.  For example, a Redis HA cluster, a RabbitMQ cluster, a Sensu cluster.  These are interconnected with a load balancing abstraction which I call router.  The router is just a set of haproxy load balancers.  Redis, RabbitMQ and Sensu-Server communicate through this abstraction.
 
 There is a complexity involved though that is not readily fixed.  This complexity is how to abstract out the router with a VIP.  You would think this is simple, but it isn't.  In practice, this requires fancy configuration with load balancers in AWS.  Or it requires setting up KeepaliveD, which, incidentally, has trouble working in any cloud environment as multicast is generally restricted (AWS, I'm looking at you!)  Your best bet is DNS with very short TTL.  Place that on your router cluster.  Anything else is generally too complicated.
+
+### Limitations
+Thanks to limitations of test-kitchen, what is tested locally and what is deployed to production are not the same.  Test-kitchen has strangely decided not to adapt to modern, distributed services dependent on other nodes for information.  Pretty much all modern infrastructure.  Despite this, test-kitchen is still one of the best tools out there (though handicapped).  So to make all this work, there are a number of overrided attributes needed to make this work properly.  In production, this is normally achieved with a Chef search.
+
 
 
 ## Supported Platforms
