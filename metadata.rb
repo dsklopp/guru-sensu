@@ -18,6 +18,7 @@ end
 
 depends "apt"
 depends "sensu", "= 2.9.0"
+depends "consul", "= 0.9.1"
 depends "sudo"
 depends "uchiwa"
 depends "haproxy"
