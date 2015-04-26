@@ -1,0 +1,22 @@
+{
+  "transport": {
+    "reconnect_on_error": true
+  },
+  "rabbitmq": {
+    "host": "<%= @rabbitmq_host -%>",
+    "port": <%= @rabbitmq_port -%>,
+    "vhost": "/sensu",
+    "user": "sensu",
+    "password": "password"
+  },
+  "redis": {
+    "host": "<%= @redis_host -%>",
+    "port": <%= @redis_port -%>,
+    "reconnect_on_error": true
+  },
+  "api": {
+    "host": "<%= @api_host -%>",
+    "bind": "<%= @api_bind -%>",
+    "port": <%= @api_port -%>
+  }
+}

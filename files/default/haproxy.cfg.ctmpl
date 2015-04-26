@@ -1,0 +1,49 @@
+global
+  log 127.0.0.1   local0
+  maxconn 4096
+  user haproxy
+  group haproxy
+
+defaults
+  log     global
+  mode    http
+  option  dontlognull
+  retries 3
+  option redispatch
+  timeout connect 5s
+  timeout client 50s
+  timeout server 50s
+  balance  roundrobin
+
+# Set up application listeners here.
+
+listen rabbitmq
+  bind 0.0.0.0:61701
+  mode tcp
+{{range service "rabbitmq" }}
+  server {{.Node}} {{.Address}}:5672 check inter 10s rise 2 fall 3
+{{end}}
+  maxconn 20000
+  balance roundrobin
+
+
+listen redis
+  bind 0.0.0.0:61702
+  mode tcp
+{{range service "redis" }}
+  server {{.Node}} {{.Address}}:6379 check inter 10s rise 2 fall 3
+{{end}}
+  maxconn 20000
+  balance roundrobin
+
+
+listen uchiwa
+  bind 0.0.0.0:80
+  mode tcp
+{{range service "uchiwa" }}
+  server {{.Node}} {{.Address}}:3000 check inter 10s rise 2 fall 3
+{{end}}
+  maxconn 20000
+  balance roundrobin
+
+

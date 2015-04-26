@@ -8,4 +8,15 @@
 #
 
 include_recipe "guru-sensu::_common"
+
+node.default.consul.servers=node.remotes.routers.ips
+node.default.consul.service_mode='client'
+include_recipe "guru-sensu::_consul"
+
+
 include_recipe "uchiwa"
+consul_service_def 'uchiwa' do
+  port 3000
+  tags [ 'uchiwa' ]
+  notifies :reload, 'service[consul]'
+end

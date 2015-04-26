@@ -6,6 +6,7 @@ driver:
 
 provisioner:
   name: chef_zero
+  nodes_path: test/nodes
 
 platforms:
   - name: ubuntu-12.04
@@ -47,3 +48,5 @@ suites:
       - recipe[apt::default]
       - recipe[guru-sensu::all_in_one]
     attributes:
+      guru-sensu:
+        test_kitchen_node: true

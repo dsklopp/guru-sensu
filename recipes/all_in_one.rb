@@ -6,8 +6,6 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-# Default recipe, include it to bring in the dependencies
-# Otherwise it does nothing
 
 include_recipe "sensu::default"
 include_recipe "guru-sensu::router"

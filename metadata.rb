@@ -22,3 +22,4 @@ depends "consul", "= 0.9.1"
 depends "sudo"
 depends "uchiwa"
 depends "haproxy"
+depends 'consul-template'

@@ -10,56 +10,44 @@
 # Find all router IPs and include self in that list
 
 include_recipe "guru-sensu::_common"
-unless node.remotes.routers.ips.include?(node.ipaddress)
-  node.default.remotes.routers.ips << node.ipaddress
+router=search(:node, "router").first
+if router.nil?
+  unless node.remotes.routers.ips.include?(node.ipaddress)
+    node.default.remotes.routers.ips << node.ipaddress
+  end
+else
+  unless node.remotes.routers.ips.include?(router.ipaddress)
+    node.default.remotes.routers.ips << router.ipaddress
+  end
+end
+
+node.default.consul.servers=node.remotes.routers.ips
+node.default.consul.service_mode='cluster'
+include_recipe "guru-sensu::_consul"
+
+
+consul_service_def 'router' do
+  port 22002
+  tags [ 'router' ]
+  notifies :reload, 'service[consul]'
 end
 
 include_recipe "haproxy::default"
 
-haproxy_lb 'rabbitmq' do
-  bind '0.0.0.0:5672'
-  mode 'tcp'
-  servers [ "rabbitmq 192.168.12.42:5672 check inter 10s rise 2 fall 3" ]
-  params({
-    'maxconn' => 20000,
-    'balance' => 'roundrobin'
-  })
+cookbook_file "haproxy.cfg.ctmpl" do
+  path "/etc/consul-templates/haproxy.cfg.ctmpl"
+  source "haproxy.cfg.ctmpl"
+  mode '0640'
+  owner 'root'
+  group 'root'
+  notifies :reload, 'service[consul-template]', :delayed
 end
 
-haproxy_lb 'redis' do
-  bind '0.0.0.0:5672'
-  mode 'tcp'
-  servers [ "redis 192.168.12.41:6379 check inter 10s rise 2 fall 3" ]
-  params({
-    'maxconn' => 20000,
-    'balance' => 'roundrobin'
-  })
+consul_template_config 'haproxy' do
+  templates [{
+    source: '/etc/consul-templates/haproxy.cfg.ctmpl',
+    destination: '/etc/haproxy/haproxy.cfg',
+    command: 'service haproxy restart'
+  }]
+  notifies :reload, 'service[consul-template]', :delayed
 end
-
-haproxy_lb 'web' do
-  bind '0.0.0.0:80'
-  mode 'tcp'
-  servers [ "uchiwa 192.168.12.43:3000 check inter 10s rise 2 fall 3" ]
-  params({
-    'maxconn' => 20000,
-    'balance' => 'roundrobin'
-  })
-end
-
-haproxy_lb 'uchiwa' do
-  bind '0.0.0.0:3000'
-  mode 'tcp'
-  servers [ "uchiwa 192.168.12.43:3000 check inter 10s rise 2 fall 3" ]
-  params({
-    'maxconn' => 20000,
-    'balance' => 'roundrobin'
-  })
-end
-
-resources("template[#{node.haproxy.conf_dir}/haproxy.cfg]").action(:nothing)
-ruby_block 'generate haproxy config' do
-  block { }
-  notifies :create, "template[#{node.haproxy.conf_dir}/haproxy.cfg]", :delayed
-  notifies :start, "service[haproxy]", :delayed
-end
-

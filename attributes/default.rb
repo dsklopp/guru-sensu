@@ -11,4 +11,21 @@ default.sensu.use_ssl=false
 # Sometimes sensu is slow to stop
 default.sensu.service_max_wait=10
 
+# This gets run before apt-get, even after setting
+# apt-get to run at compile time
+override['build-essential']['compile_time']=false
 
+default.consul.datacenter='sensu'
+default.consul.domain='.sensu.consul'
+default.consul.log_level='debug'
+#default.consul.service_mode='cluster'
+#default.consul.advertise_addr='0.0.0.0'
+if default['guru-sensu'].test_kitchen_mode
+  default.consul.bind_interface='eth1'
+  default.consul.advertise_interface='eth1'
+end
+
+default.consul.bootstrap_expect=1
+default.consul.serve_ui=true
+
+default.sensu.consul_template.url='https://github.com/hashicorp/consul-template/releases/download/v0.8.0/consul-template_0.8.0_linux_amd64.tar.gz'
