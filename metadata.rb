@@ -23,3 +23,5 @@ depends "sudo"
 depends "uchiwa"
 depends "haproxy"
 depends 'consul-template'
+depends 'graphite'
+depends 'grafana'

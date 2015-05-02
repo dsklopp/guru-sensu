@@ -14,4 +14,6 @@ include_recipe "guru-sensu::rabbitmq"
 include_recipe "guru-sensu::sensu-server"
 include_recipe "guru-sensu::dashboard"
 include_recipe "guru-sensu::sensu-client"
+include_recipe "guru-sensu::metrics-collector"
+include_recipe "guru-sensu::metrics-dashboard"
 
