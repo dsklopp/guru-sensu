@@ -4,6 +4,8 @@ Configuration cookbook for Sensu.  This cookbook is meant for deploying a Sensu 
 
 I would like to thank Sean Porter's chef-monitor cookbook for much of the inspiration for this variant.  This cookbook is a complete rewrite that better fits deployments.  Having said that, the bulk of this cookbook is tightly coupled with Sean's original chef-sensu cookbook.
 
+WARNING: This cookbook is still experimental and not 100% functional.  For seeing the distributed setup, look at my dsklopp/cluster-sensu setup.
+
 ## Architecture
 Sensu is a naturally distributed application.  This cookbook was designed to reflect that design.
 
