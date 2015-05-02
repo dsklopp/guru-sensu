@@ -23,6 +23,7 @@ default.consul.log_level='debug'
 if default['guru-sensu'].test_kitchen_mode
   default.consul.bind_interface='eth1'
   default.consul.advertise_interface='eth1'
+  default.grafana.webserver_listen='192.168.12.43'
 end
 
 default.consul.bootstrap_expect=1
