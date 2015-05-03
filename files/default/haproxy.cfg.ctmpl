@@ -37,13 +37,20 @@ listen redis
   balance roundrobin
 
 
-#listen uchiwa
-#  bind 0.0.0.0:80
-#  mode tcp
-#{{range service "uchiwa" }}
-#  server {{.Node}} {{.Address}}:3000 check inter 10s rise 2 fall 3
-#{{end}}
-#  maxconn 20000
-#  balance roundrobin
+listen uchiwa
+  bind 0.0.0.0:80
+  mode http
+  maxconn 20000
+  {{range service "uchiwa" }}
+  server {{.Node}} {{.Address}}:3000 check inter 10s rise 2 fall 3
+  {{end}}
+  balance roundrobin
 
+listen grafana
+  bind 0.0.0.0:8080
+  mode http
+  {{range service "grafana" }}
+  server {{.Node}} {{.Address}}:8081 check inter 10s rise 2 fall 3
+  {{end}}
+  balance roundrobin
 

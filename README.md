@@ -78,4 +78,4 @@ Don't directly use this.
 
 ## License and Authors
 
-Author:: YOUR_NAME (<YOUR_EMAIL>)
+Author:: Daniel Klopp(<YOUR_EMAIL>)
