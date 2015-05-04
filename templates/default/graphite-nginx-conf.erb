@@ -1,0 +1,11 @@
+server {
+  listen                <%= @address %>:<%= @port %>;
+
+  server_name           <%= @hostname %> <%= @address %>;
+  access_log            /var/log/nginx/<%= @hostname %>.access.log;
+
+  location / {
+	uwsgi_pass unix:///tmp/uwsgi.sock;
+	include uwsgi_params;
+  }
+}

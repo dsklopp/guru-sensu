@@ -14,6 +14,8 @@ include_recipe "guru-sensu::_consul"
 
 include_recipe "grafana::default"
 
+
+node.default.grafana.graphite_server=query_consul("graphite")
 if node.default.grafana.webserver == ''
   node.default.grafana.datasources['elasticsearch']['url'] =
     'window.location.protocol+"//"+window.location.hostname+":"+window.location.port+"/_es"'

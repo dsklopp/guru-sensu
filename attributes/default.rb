@@ -27,6 +27,13 @@ if default['guru-sensu'].test_kitchen_mode
 end
 default.grafana.webserver_port=8081
 
+# These two are identical
+default.graphite.webserver_port=8082
+default.grafana.graphite_port=8082
+
+default.graphite.user='www-data'
+default.graphite.group='ww-data'
+
 default.consul.bootstrap_expect=1
 default.consul.serve_ui=true
 
