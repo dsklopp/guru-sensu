@@ -4,7 +4,7 @@ maintainer_email 'dsklopp@gmail.com'
 license          'All rights reserved'
 description      'Installs/Configures guru-sensu'
 long_description 'Installs/Configures guru-sensu'
-version          '0.1.0'
+version          '0.1.1'
 
 %w[
   ubuntu
