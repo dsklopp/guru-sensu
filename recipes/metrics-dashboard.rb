@@ -12,10 +12,11 @@ node.default.consul.servers=node.remotes.routers.ips
 node.default.consul.service_mode='client'
 include_recipe "guru-sensu::_consul"
 
+node.default.grafana.graphite_server=query_consul("graphite")
+
 include_recipe "grafana::default"
 
 
-node.default.grafana.graphite_server=query_consul("graphite")
 if node.default.grafana.webserver == ''
   node.default.grafana.datasources['elasticsearch']['url'] =
     'window.location.protocol+"//"+window.location.hostname+":"+window.location.port+"/_es"'
