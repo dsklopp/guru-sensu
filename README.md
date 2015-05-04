@@ -2,7 +2,8 @@
 
 Configuration cookbook for Sensu.  This cookbook is meant for deploying a Sensu Server and Client with all the bells and whistles normally attributed of such an installation.
 
-I would like to thank Sean Porter's chef-monitor cookbook for much of the inspiration for this variant.  This cookbook is a complete rewrite that better fits deployments.  Having said that, the bulk of this cookbook is tightly coupled with Sean's original chef-sensu cookbook.
+This cookbook makes use of Consul to dynamically configure the server components of Sensu.  Consul is not involved with the client aspect of Sensu.
+
 
 WARNING: This cookbook is still experimental and not 100% functional.  For seeing the distributed setup, look at my dsklopp/cluster-sensu setup.
 
@@ -66,6 +67,8 @@ Don't directly use this.
 
 ### guru_sensu::_consul
 Don't directly use this.
+
+## Acknowledgements
 
 ## Contributing
 
